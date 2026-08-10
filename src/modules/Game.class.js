@@ -82,6 +82,18 @@ class Game {
     return result;
   }
 
+  static boardsAreEqual(board1, board2) {
+    for (let row = 0; row < BOARD_SIZE; row++) {
+      for (let col = 0; col < BOARD_SIZE; col++) {
+        if (board1[row][col] !== board2[row][col]) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
   static hasTile(board, value) {
     return board.some((row) => row.includes(value));
   }
@@ -183,6 +195,8 @@ class Game {
     if(transpose) {
       result = Game.transpose[result];
     }
+
+    if (Game.boardsAreEqual() )
   }
 
   getEmpytCells() {
