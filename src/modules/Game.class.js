@@ -4,7 +4,7 @@ const Status = {
   IDLE: 'idle',
   PLAYING: 'playing',
   WIN: 'win',
-  LOSE: 'lose'
+  LOSE: 'lose',
 };
 
 const BOARD_SIZE = 4;
@@ -33,8 +33,8 @@ class Game {
    */
   constructor(initialState) {
     this.initialState = initialState
-    ? initialState.map((row) => [...row])
-    : Game.createEmptyBoard();
+      ? initialState.map((row) => [...row])
+      : Game.createEmptyBoard();
 
     this.board = this.initialState.map((row) => [...row]);
     this.score = 0;
@@ -54,7 +54,7 @@ class Game {
       const current = values[i];
       const next = values[i + 1];
 
-      if(current = next) {
+      if (current === next) {
         const mergedValue = current * 2;
 
         newRow.push(mergedValue);
@@ -75,7 +75,7 @@ class Game {
   static transpose(board) {
     const result = [];
 
-    for ( let col = 0; col < BOARD_SIZE; col++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
       result.push(board.map((row) => row[col]));
     }
 
@@ -99,16 +99,16 @@ class Game {
   }
 
   moveLeft() {
-    this.move({transpose: false, reverse: false});
+    this.move({ transpose: false, reverse: false });
   }
   moveRight() {
-    this.move({transpose: false, reverse: true});
+    this.move({ transpose: false, reverse: true });
   }
   moveUp() {
-    this.move({transpose: true, reverse: false});
+    this.move({ transpose: true, reverse: false });
   }
   moveDown() {
-    this.move({transpose: true, reverse: true});
+    this.move({ transpose: true, reverse: true });
   }
 
   /**
@@ -158,10 +158,10 @@ class Game {
   restart() {
     this.board = this.initialState.map((row) => [...row]);
     this.score = 0;
-    this.status = Status.IDLE
+    this.status = Status.IDLE;
   }
 
-  move({transpose, reverse}) {
+  move({ transpose, reverse }) {
     if (this.status === Status.IDLE) {
       return;
     }
@@ -179,7 +179,7 @@ class Game {
     let scoreGained = 0;
 
     const merged = working.map((row) => {
-      const { row: newRow, gained} = Game.slideAndMergeRow(row);
+      const { row: newRow, gained } = Game.slideAndMergeRow(row);
 
       scoreGained += gained;
 
@@ -188,11 +188,11 @@ class Game {
 
     let result = merged;
 
-    if(reverse) {
+    if (reverse) {
       result = result.map((row) => [...row].reverse);
     }
 
-    if(transpose) {
+    if (transpose) {
       result = Game.transpose[result];
     }
 
@@ -200,7 +200,7 @@ class Game {
       this.board = result;
       this.score += scoreGained;
 
-      if(Game.hasTile(this.board, WINNING_TILE)) {
+      if (Game.hasTile(this.board, WINNING_TILE)) {
         this.status = Status.WIN;
       }
 
@@ -217,7 +217,7 @@ class Game {
 
     for (let row = 0; row < BOARD_SIZE; row++) {
       for (let col = 0; col < BOARD_SIZE; col++) {
-        if(this.board[row][col] === 0) {
+        if (this.board[row][col] === 0) {
           cells.push([row, col]);
         }
       }
@@ -229,15 +229,14 @@ class Game {
   addRandomTile() {
     const emptyCells = this.getEmpytCells();
 
-    if(emptyCells.length === 0) {
+    if (emptyCells.length === 0) {
       return;
     }
 
-    const [row, col] = emptyCells[
-      Math.floor(Math.random() * emptyCells.length)
-    ];
+    const [row, col] =
+      emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
-    this.board[row, col] = Math.random() < NEW_TILE_TWO_PROBABILITY ? 2 : 4;
+    this.board[row][col] = Math.random() < NEW_TILE_TWO_PROBABILITY ? 2 : 4;
   }
 
   hasMovesAvailable() {
@@ -255,7 +254,7 @@ class Game {
           return true;
         }
 
-        if (down !== undefined && donw === value) {
+        if (down !== undefined && down === value) {
           return true;
         }
       }
