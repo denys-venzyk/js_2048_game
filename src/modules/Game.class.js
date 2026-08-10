@@ -45,7 +45,7 @@ class Game {
     return Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(0));
   }
 
-  static sliceAndMergeRow(row) {
+  static slideAndMergeRow(row) {
     const values = row.filter((cell) => cell !== 0);
     const newRow = [];
     let gained = 0;
@@ -143,7 +143,7 @@ class Game {
    * Starts the game.
    */
   start() {
-    if (this.status !== status.IDLE) {
+    if (this.status !== Status.IDLE) {
       return;
     }
 
@@ -169,11 +169,11 @@ class Game {
     let working = this.board.map((row) => [...row]);
 
     if (transpose) {
-      working = Game.transpose[working];
+      working = Game.transpose(working);
     }
 
     if (reverse) {
-      working = working.map((row) => [...row].reverse);
+      working = working.map((row) => [...row].reverse());
     }
 
     let scoreGained = 0;
@@ -189,11 +189,11 @@ class Game {
     let result = merged;
 
     if (reverse) {
-      result = result.map((row) => [...row].reverse);
+      result = result.map((row) => [...row].reverse());
     }
 
     if (transpose) {
-      result = Game.transpose[result];
+      result = Game.transpose(result);
     }
 
     if (!Game.boardsAreEqual(this.board, result)) {
@@ -240,8 +240,8 @@ class Game {
   }
 
   hasMovesAvailable() {
-    if (this.getEmpytCells.length > 0) {
-      return;
+    if (this.getEmpytCells().length > 0) {
+      return true;
     }
 
     for (let row = 0; row < BOARD_SIZE; row++) {

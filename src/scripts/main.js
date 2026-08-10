@@ -9,7 +9,6 @@ const startButton = document.querySelector('.button.start');
 const winMessage = document.querySelector('.message-start');
 const loseMessage = document.querySelector('.message-lose');
 const startMessage = document.querySelector('.message-start');
-const fieldRows = document.querySelector('.field-row');
 
 let hasMoved = false;
 
@@ -29,6 +28,7 @@ const CELL_BASE_CLASS = 'field-cell';
 
 function render() {
   const state = game.getState();
+  const fieldRows = document.querySelectorAll('.field-row');
 
   state.forEach((row, rowIndex) => {
     row.forEach((value, colIndex) => {
