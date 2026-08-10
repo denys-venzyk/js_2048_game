@@ -196,7 +196,20 @@ class Game {
       result = Game.transpose[result];
     }
 
-    if (Game.boardsAreEqual() )
+    if (!Game.boardsAreEqual(this.board, result)) {
+      this.board = result;
+      this.score += scoreGained;
+
+      if(Game.hasTile(this.board, WINNING_TILE)) {
+        this.status = Status.WIN;
+      }
+
+      this.addRandomTile();
+
+      if (this.status === Status.PLAYING && !this.hasMovesAvailable()) {
+        this.status = Status.LOSE;
+      }
+    }
   }
 
   getEmpytCells() {
