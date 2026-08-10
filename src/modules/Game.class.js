@@ -185,7 +185,57 @@ class Game {
     }
   }
 
-  
+  getEmpytCells() {
+    const cells = [];
+
+    for (let row = 0; row < BOARD_SIZE; row++) {
+      for (let col = 0; col < BOARD_SIZE; col++) {
+        if(this.board[row][col] === 0) {
+          cells.push([row, col]);
+        }
+      }
+    }
+
+    return cells;
+  }
+
+  addRandomTile() {
+    const emptyCells = this.getEmpytCells();
+
+    if(emptyCells.length === 0) {
+      return;
+    }
+
+    const [row, col] = emptyCells[
+      Math.floor(Math.random() * emptyCells.length)
+    ];
+
+    this.board[row, col] = Math.random() < NEW_TILE_TWO_PROBABILITY ? 2 : 4;
+  }
+
+  hasMovesAvailable() {
+    if (this.getEmpytCells.length > 0) {
+      return;
+    }
+
+    for (let row = 0; row < BOARD_SIZE; row++) {
+      for (let col = 0; col < BOARD_SIZE; col++) {
+        const value = this.board[row][col];
+        const right = this.board[row][col + 1];
+        const down = this.board[row + 1] ? this.board[row + 1][col] : undefined;
+
+        if (right !== undefined && right === value) {
+          return true;
+        }
+
+        if (down !== undefined && donw === value) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
 }
 
 module.exports = Game;
