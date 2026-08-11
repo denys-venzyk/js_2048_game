@@ -18,12 +18,6 @@ function setButtonToRestart() {
   startButton.classList.add('restart');
 }
 
-function setButtonToStart() {
-  startButton.textContent = 'Start';
-  startButton.classList.remove('restart');
-  startButton.classList.add('start');
-}
-
 const CELL_BASE_CLASS = 'field-cell';
 
 function render() {
@@ -105,16 +99,13 @@ startButton.addEventListener('click', () => {
     startMessage.classList.add('hidden');
     loseMessage.classList.add('hidden');
     winMessage.classList.add('hidden');
-  } else {
-    game.restart();
-    hasMoved = false;
-
-    startMessage.classList.remove('hidden');
-    loseMessage.classList.add('hidden');
-    winMessage.classList.add('hidden');
-
-    setButtonToStart();
   }
+
+  game.restart();
+  game.start();
+
+  hasMoved = true;
+  setButtonToRestart();
 
   render();
 });
